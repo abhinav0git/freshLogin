@@ -1,10 +1,11 @@
 const app = require('express')();
 import { connect, Schema, model } from 'mongoose';
 const bcrypt = require('bcrypt');
+const session = require('express-session');
 
 //express-session middleware
 app.use(session({
-    secret: "shubham",
+    secret: "shubham#",
     resave: false,
     saveUninitialized: true
 }));
@@ -61,6 +62,13 @@ app.post("/login", async (req, res, next) => {
     else {
         return res.send("Invalid username or password");
     }
+})
+
+//logout route 
+
+app.post("/logout", (req, res, next) => {
+    req.session.destroy();
+    return res.send("Logout DONE!");
 })
 
 app.listen(3000, () => {
